@@ -1,0 +1,111 @@
+﻿@using WEBBANHANG.Models.Entity
+@using System.Data.Entity;
+@{
+    ViewBag.Title = "ListDonDat";
+    List<DonDatHang> donDatHang = ViewBag.donDatHang;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="cart-title mt-50">
+                    <h2>Shopping Cart</h2>
+                </div>
+
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive" style="display: unset">
+                        <thead>
+                            <tr>
+                                <th style="max-width:5%">STT</th>
+                                <th style="max-width:18%">Số hiệu đơn</th>
+                                <th>Ngày đặt</th>
+                                <th style="max-width:10%">Giá</th>
+                                <th style="max-width:15%">Trạng thái</th>
+                                <th style="max-width:15%">Ghi chú</th>
+                                <th style="max-width:15%">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (donDatHang != null)
+                                {
+                                    foreach (var i in donDatHang)
+                                    {
+                                        var stt = donDatHang.ToList().IndexOf(i) + 1;
+                                        <tr>
+                                            <td style="max-width:5%">@stt</td>
+                                            <td class="cart_product_desc" style="max-width:18%">
+                                                <h5>@i.SoHieuDon</h5>
+                                            </td>
+                                            <td class="price">
+                                                <span>@i.NgayDat</span>
+                                            </td>
+                                            @{
+                                                var soLuong = i.ChiTietDonDatHangs;
+                                                double? giaban;
+                                                if (soLuong != null)
+                                                {
+                                                    giaban = soLuong.Select(x => x.SoLuong).FirstOrDefault() * soLuong.Select(x => x.GiaXuat).FirstOrDefault();
+                                                }
+                                                else
+                                                {
+                                                    giaban = 0;
+                                                }
+                                            }
+                                            <td class="quantity" style="max-width:10%">
+                                                <span>@giaban đ</span>
+                                            </td>
+                                            @{
+                                                var trangThai = "";
+                                                if (i.TinhTrang == 0)
+                                                {
+                                                    trangThai = "Chưa đặt hàng";
+                                                }
+                                                if (i.TinhTrang == 1)
+                                                {
+                                                    trangThai = "Đã đặt hàng";
+                                                }
+                                                if (i.TinhTrang == 2)
+                                                {
+                                                    trangThai = "Đã nhận đơn(đang xử lý)";
+                                                }
+                                                if (i.TinhTrang == 3)
+                                                {
+                                                    trangThai = "Chưa thanh toán";
+                                                }
+                                                if (i.TinhTrang == 4)
+                                                {
+                                                    trangThai = "Hoàn thành";
+                                                }
+
+                                            }
+                                            <td class="quantity" style="max-width:15%">
+                                                <span>@trangThai</span>
+                                            </td>
+                                            <td class="quantity" style="max-width:15%">
+                                                <span>@i.GhiChu</span>
+                                            </td>
+                                            @{
+                                                var url = "/Home/ChiTietDon?donDatHangID=" + i.DonDatHangID;
+                                            }
+                                            <td class="huy" style="max-width:20%">
+                                                <a href="@url" class="fav-nav"><img src="~/Content_Web/img/core-img/eye_1-512.png" alt=""></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <div>Không đơn nào</div>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

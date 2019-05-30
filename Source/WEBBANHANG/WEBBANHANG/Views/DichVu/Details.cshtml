@@ -1,0 +1,64 @@
+﻿@model WEBBANHANG.Models.Entity.DichVu
+
+@{
+    ViewBag.Title = "Dịch vụ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chi tiết dịch vụ</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Ảnh sản phẩm
+        </dt>
+        @{
+            var imageSource = Model.AnhDaiDien == null ? "" : Url.Content(Model.AnhDaiDien);
+        }
+        <dd>
+            <img src="@imageSource" width="250" height="250" />
+        </dd>
+
+        <dt>
+            Tên dịch vụ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenDichVu)
+        </dd>
+
+        <dt>
+            Mô tả ngắn
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MoTaNgan)
+        </dd>
+
+        <dt>
+            Trạng thái
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+
+        <dt>
+            Bài viết
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaiViet)
+        </dd>
+
+    </dl>
+</div>
+<div class="row" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","DichVu")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+    <button onclick="location.href='@Url.Action("Edit","DichVu", new { id = Model.DichVuID })'">
+        Chỉnh sửa
+    </button>
+</div>

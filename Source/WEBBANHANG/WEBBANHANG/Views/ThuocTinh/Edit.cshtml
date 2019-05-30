@@ -1,0 +1,50 @@
+﻿@model WEBBANHANG.Models.Entity.ThuocTinh
+
+@{
+    ViewBag.Title = "Thuộc tính";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chỉnh sửa thuộc tính sản phẩm</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ThuocTinhID)
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            Tên thuộc tính
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TenThuocTinh, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.TenThuocTinh, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            Ghi chú
+        </div>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.GhiChu, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Cập nhật" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<div class="row" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","ThuocTinh")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+</div>

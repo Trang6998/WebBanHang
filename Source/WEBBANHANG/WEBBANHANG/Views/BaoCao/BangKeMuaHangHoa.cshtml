@@ -1,0 +1,144 @@
+﻿@model IEnumerable<WEBBANHANG.Models.Entity.DonDatHang>
+
+@{
+    ViewBag.Title = "BangKeMuaHangHoa";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Bảng kê mua hàng hóa </h2>
+
+<form>
+    <div class="col-md-12 row" style="padding: 10px">
+        <div class=" control-label  col-md-2" style="padding: 0px">
+            @Html.DropDownList("sanPhamID", (SelectList)ViewBag.lstSanPham, "Chọn sản phẩm", new { @class = "form-control" })
+        </div>
+        <div class="control-label col-md-1" style="padding: 5px 0px 5px 30px;">
+            Từ ngày:
+        </div>
+        <div class="control-label col-md-3">
+            <input class="form-control" type="datetime-local" name="SearchDateS" value="@ViewBag.CurrentSFilter">
+        </div>
+        <div class="control-label col-md-1" style="padding: 5px 0px 5px 23px;">
+            Đến ngày:
+        </div>
+        <div class="control-label col-md-3">
+            <input class="form-control" type="datetime-local" name="SearchDateF" value="@ViewBag.CurrentFFilter">
+        </div>
+
+        <div class="col-md-2">
+            <input type="submit" style="float: right; margin-right: -35px" value="Tìm kiếm" onclick='this.form.action = "/BaoCao/BangKeMuaHangHoa";' class="btn btn-default">
+        </div>
+    </div>
+    <div class="col-md-12 row" style="padding: 10px">
+        <div class="control-label col-md-2" style="padding-right: 0px">
+            @Html.RadioButton("option", 1, true) <text>Chưa nhận đơn</text>
+        </div>
+        <div class="control-label col-md-2" style="padding: 0px">
+            @Html.RadioButton("option", 2, true) <text> Đang xử lý </text>
+        </div>
+        <div class="control-label col-md-2" style="padding: 0px">
+            @Html.RadioButton("option", 3, true) <text>Chưa thanh toán</text>
+        </div>
+        <div class="control-label col-md-2" style="padding: 0px">
+            @Html.RadioButton("option", 4, true) <text>Hoàn thành</text>
+        </div>
+        <div class="control-label col-md-2" style="padding-right: 0px">
+            @Html.RadioButton("option", -1, true) <text>Tất cả</text>
+        </div>
+
+        <div class="col-md-2">
+            <input type="submit" style="float: right; margin-right: -35px" value="Xuất file" onclick='this.form.action = "/Export/ExportMau03";' class="btn btn-default">
+        </div>
+    </div>
+</form>
+<div class="col-md-12 table-responsive" style="padding: 0px">
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                Số đơn hàng
+            </th>
+            <th>
+                Thời gian đặt
+            </th>
+            <th>
+                Thông tin khách hàng
+            </th>
+            <th>
+                Số lượng
+            </th>
+            <th>
+                Giá bán
+            </th>
+            <th>
+                Thành tiền bán
+            </th>
+            <th>
+                Ghi chú
+            </th>
+            <th>
+                Trạng thái đơn
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            var stt = Model.ToList().IndexOf(item) + 1;
+            <tr>
+                <td>
+                    @stt
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoHieuDon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayDat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.HoTen) <br />
+                    <i>@Html.DisplayFor(modelItem => item.User.DiaChi)</i>
+                </td>
+                @{
+                    var chiTietDon = item.ChiTietDonDatHangs.FirstOrDefault(x => x.SanPhamID == ViewBag.sanPhamID);
+                }
+                <td>
+                    @{
+                        if (chiTietDon != null)
+                        {
+                            @chiTietDon.SoLuong
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (chiTietDon != null)
+                        {
+                            @chiTietDon.GiaXuat
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (chiTietDon != null)
+                        {
+                            var thanhTien = chiTietDon.SoLuong * chiTietDon.GiaXuat;
+                            <div>@thanhTien</div>
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GhiChu)
+                </td>
+                <td>
+                    @{// trạng thái
+                        var trangthai = item.TinhTrang == 0 ? "Giỏ hàng" : (item.TinhTrang == 1 ? "Chưa nhận đơn" : (item.TinhTrang == 2 ? "Đang xử lý" : (item.TinhTrang == 3 ? "Chưa thanh toán" : (item.TinhTrang == 4 ? "Hoàn thành" : "Không xác định"))));
+                        <span>@trangthai</span>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

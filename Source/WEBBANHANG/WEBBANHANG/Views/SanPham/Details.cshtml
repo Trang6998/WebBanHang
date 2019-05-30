@@ -1,0 +1,136 @@
+﻿@model WEBBANHANG.Models.Entity.SanPham
+
+@{
+    ViewBag.Title = "Sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chi tiết sản phẩm</h2>
+
+<div>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            <div class="dl-horizontal">
+                <div class="col-md-4">
+                    <div>
+                        <b>Ảnh sản phẩm</b>
+                    </div>
+                    <br />
+                    @{
+                        var imageSource = Model.AnhSanPham == null ? "" : Url.Content(Model.AnhSanPham);
+                    }
+                    <div>
+                        <img src="@imageSource" width="300" height="300" />
+                    </div>
+
+                </div>
+                <div class="col-md-8" style="padding-top: 20px">
+                    <h2>
+                        <b>@Html.DisplayFor(model => model.TenSanPham)</b>
+                    </h2>
+                    <h3>
+                        <p style="color: red">
+                            @Html.DisplayFor(model => model.GiaBan) VNĐ
+                        </p>
+                    </h3>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>Ký hiệu sản phẩm: </b>
+                    </div>
+
+                    <div class="col-md-9" style="padding-left: 0px; height: 22px">
+                        @Html.DisplayFor(model => model.KyHieuSanPham)
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Loại sản phẩm:
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px; height: 22px">
+                        @Html.DisplayFor(model => model.LoaiSanPham.TenLoai)
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Đơn vị tính
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px; height: 22px">
+                        @Html.DisplayFor(model => model.DonViTinh.TenDonVi)
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Nhà sản xuất:
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px; height: 22px">
+                        @Html.DisplayFor(model => model.NhaSanXuat)
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Nhà cung cấp:
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px; height: 22px">
+                        @Html.DisplayFor(model => model.NhaCungCap.TenNhaCungCap)
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Mô tả ngắn:
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px; height: 22px">
+                        @Html.DisplayFor(model => model.MoTaNgan)
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Ẩn hiện sản phẩm:
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px; ">
+                        @Html.CheckBox("AnHienSanPham")
+                    </div>
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Ẩn hiện nhà sản xuất:
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px">
+                        @Html.CheckBox("AnHienNhaSanXuat")
+                    </div>
+
+                    <div class="col-md-3" style="padding-left: 0px">
+                        <b>
+                            Là sản phẩm mới:
+                        </b>
+                    </div>
+                    <div class="col-md-9" style="padding-left: 0px">
+                        @Html.CheckBox("LaSanPhamMoi")
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h3>
+                Bài viết mô tả
+            </h3>
+
+            <div style="    padding: 15px;
+    border: groove;">
+                @Html.Raw(Model.MoTa)
+            </div>
+
+        </div>
+    }
+</div>
+<div class="col-md-12" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","SanPham")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+    <button onclick="location.href='@Url.Action("Edit","SanPham", new { id = Model.SanPhamID })'">
+        Chỉnh sửa
+    </button>
+</div>

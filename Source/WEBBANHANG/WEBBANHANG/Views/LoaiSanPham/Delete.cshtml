@@ -1,0 +1,66 @@
+﻿@model WEBBANHANG.Models.Entity.LoaiSanPham
+
+@{
+    ViewBag.Title = "Danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Xóa danh mục sản phẩm</h2>
+
+<h3>Bạn có chắc chắn muốn xóa danh mục này?</h3>
+<div>
+    <hr />
+    <div class="dl-horizontal">
+        <div class="col-md-4">
+            <div>
+                <b>Ảnh đại diện</b>
+            </div>
+            @{
+                var imageSource = Model.AnhDaiDien == null ? "" : Url.Content(Model.AnhDaiDien);
+            }
+            <div>
+                <img src="@imageSource" width="320" height="320" />
+            </div>
+
+        </div>
+        <div class="row col-md-8">
+            <h2>
+                <b>
+                    @Html.DisplayFor(model => model.TenLoai)
+                </b>
+            </h2>
+            <div class="col-md-3" style="padding-left: 0px">
+                <b>Danh mục cha: </b>
+            </div>
+
+            <div class="col-md-9" style="padding-left: 0px; height: 22px">
+                @Html.DisplayFor(model => model.LoaiSanPham2.TenLoai)
+            </div>
+
+            <h4>Mô tả:</h4>
+
+            <div class="col-md-12" style="padding-left: 0px;">
+                <pre>
+                     @Html.DisplayFor(model => model.MoTa)
+                </pre>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="col-md-12 no-color" style="padding: 0px">
+                    <input type="submit" value="Xóa" class="btn btn-default" />
+
+                </div>
+            }
+        </div>
+       
+    </div>
+  
+    <div class="col-md-12" style="padding: 15px">
+        <button onclick="location.href='@Url.Action("Index","LoaiSanPham")'">
+            <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+        </button>
+    </div>
+</div>

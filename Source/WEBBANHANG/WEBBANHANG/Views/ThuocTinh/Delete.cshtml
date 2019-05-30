@@ -1,0 +1,46 @@
+﻿@model WEBBANHANG.Models.Entity.ThuocTinh
+
+@{
+    ViewBag.Title = "Thuộc tính";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Xóa thuộc tính sản phẩm</h2>
+
+<h3>Bạn có chắc chắn muốn xóa thuộc tính này?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên thuộc tính
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenThuocTinh)
+        </dd>
+
+        <dt>
+            Ghi chú
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GhiChu)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" />
+
+        </div>
+    }
+    <div class="row" style="padding: 15px">
+        <button onclick="location.href='@Url.Action("Index","ThuocTinh")'">
+            <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+        </button>
+    </div>
+</div>

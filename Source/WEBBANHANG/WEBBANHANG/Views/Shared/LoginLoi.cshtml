@@ -1,0 +1,39 @@
+﻿
+
+@{
+    /**/
+
+    Layout = null;
+}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Đăng nhập</title>
+    <meta charset="UTF-8" />
+    <meta name="Designer" content="PremiumPixels.com">
+    <meta name="Author" content="$hekh@r d-Ziner, CSSJUNTION.com">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/css/structure.css">
+</head>
+<body>
+    <form class="box login" action="/Users/Test" method="post">
+        <fieldset class="boxBody">
+            <label>Tài khoản</label>
+            <input type="text" placeholder="username" tabindex="2" required name="us" />
+            <label>
+                <a href="#" class="rLink" tabindex="5">Forget your password?</a>Mật khẩu
+            </label>
+            <input type="password" placeholder="password" name="mk" tabindex="2" required />
+            <div style="padding: 7px; color: red">@TempData["msg"]</div>
+        </fieldset>
+        <footer>
+            <label><input type="checkbox" tabindex="3">Keep me logged in</label>
+            <input type="submit" class="btnLogin" value="Login" tabindex="4">
+        </footer>
+    </form>
+    <footer id="main">
+        <a href="http://wwww.cssjunction.com">Simple Login Form (HTML5/CSS3 Coded) by CSS Junction</a> | <a href="http://www.premiumpixels.com">PSD by Premium Pixels</a>
+    </footer>
+</body>
+</html>
+

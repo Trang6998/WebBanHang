@@ -1,0 +1,137 @@
+﻿@model PagedList.IPagedList<WEBBANHANG.Models.Entity.DonDatHang>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Xử lý đơn hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh sách đơn hàng</h2>
+<form>
+    <div class="form-group row">
+        <div class="control-label col-md-4">
+            <input class="form-control" placeholder="Tìm kiếm theo tên khách hàng/số hóa đơn ..." name="SearchString" value="@ViewBag.CurrentFilter">
+        </div>
+        <div class="control-label col-md-1" style="padding: 5px 0px 5px 35px;">
+            Từ ngày:
+        </div>
+        <div class="control-label col-md-3">
+            <input class="form-control" type="datetime-local" name="SearchDateS" value="@ViewBag.CurrentSFilter">
+        </div>
+        <div class="control-label col-md-1" style="padding: 5px 0px 5px 28px;">
+            Đến ngày:
+        </div>
+        <div class="control-label col-md-3">
+            <input class="form-control" type="datetime-local" name="SearchDateF" value="@ViewBag.CurrentFFilter">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="control-label col-md-2" style="padding-right: 0px">
+            @Html.RadioButton("option", 1, true) <text>Chưa nhận đơn</text>
+        </div>
+        <div class="control-label col-md-2" style="padding: 0px">
+            @Html.RadioButton("option", 2, true) <text> Đang xử lý </text>
+        </div>
+        <div class="control-label col-md-2" style="padding: 0px">
+            @Html.RadioButton("option", 3, true) <text>Chưa thanh toán</text>
+        </div>
+        <div class="control-label col-md-2" style="padding: 0px">
+            @Html.RadioButton("option", 4, true) <text>Hoàn thành</text>
+        </div>
+        <div class="control-label col-md-1" style="padding-right: 0px">
+            @Html.RadioButton("option", -1, true) <text>Tất cả</text>
+        </div>
+        <div class="col-md-2">
+            <input type="submit" style="float: right" value="Tìm kiếm" onclick='this.form.action = "/DonDatHang/Index";' class="btn btn-default">
+        </div>
+
+        <div class="col-md-1">
+            <input type="submit" style="float: right" value="Xuất file" onclick='this.form.action = "/Export/ExportXuLyDonHang";' class="btn btn-default">
+        </div>
+    </div>
+</form>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th> STT </th>
+            <th>
+                @Html.ActionLink("Số đơn hàng", "Index", new { sortOrder = ViewBag.SoHieuSortParm, currentFilter = ViewBag.CurrentFilter, currentSFilter = ViewBag.CurrentSFilter, currentFFilter = ViewBag.CurrentFFilter })
+            </th>
+            <th>
+                Họ tên khách hàng
+            </th>
+            <th>
+                @Html.ActionLink("Thời gian đặt", "Index", new { sortOrder = ViewBag.SoHieuSortParm, currentFilter = ViewBag.CurrentFilter, currentSFilter = ViewBag.CurrentSFilter, currentFFilter = ViewBag.CurrentFFilter })
+
+            </th>
+            <th>
+                @Html.ActionLink("Tổng tiền", "Index", new { sortOrder = ViewBag.SoHieuSortParm, currentFilter = ViewBag.CurrentFilter, currentSFilter = ViewBag.CurrentSFilter, currentFFilter = ViewBag.CurrentFFilter })
+            </th>
+            <th>
+                Trạng thái đơn
+            </th>
+            <th>
+                Ghi chú
+            </th>
+            <th>Thao tác</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            var stt = Model.ToList().IndexOf(item) + 1;
+            <tr>
+                <td>
+                    @stt
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoHieuDon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.HoTen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayDat)
+                </td>
+                <td>
+                    @{ // tổng tiền
+                        var tongTien = item.ChiTietDonDatHangs.Sum(x => x.GiaXuat * x.SoLuong);
+                        <span>@tongTien</span>
+                    }
+                </td>
+                <td>
+                    @{// trạng thái
+                        var trangthai= item.TinhTrang == 0? "Giỏ hàng" : (item.TinhTrang ==1 ? "Chưa nhận đơn" : (item.TinhTrang == 2? "Đang xử lý" : (item.TinhTrang == 3? "Chưa thanh toán" : (item.TinhTrang ==4 ? "Hoàn thành": "Không xác định"))));
+                        <span>@trangthai</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GhiChu)
+                </td>
+                <td class="text-nowrap">
+                    @{
+                        if (item.TinhTrang == 1)
+                        {
+                            <button data-toggle="tooltip" title="Nhận đơn" onclick="location.href='@Url.Action("NhanDon","DonDatHang",new { id = item.DonDatHangID })'"><i class="fa fa-fw fa-cloud-download"></i></button>
+                        }
+                    }
+                    <button data-toggle="tooltip" title="Cập nhật đơn" onclick="location.href='@Url.Action("Edit","DonDatHang",new { id = item.DonDatHangID })'"><i class="fa fa-fw fa-pencil"></i></button>
+                    <button data-toggle="tooltip" title="Xóa đơn" onclick="location.href='@Url.Action("Delete","DonDatHang",new { id = item.DonDatHangID })'"><i class="fa fa-fw fa-trash"></i></button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div>
+    <p style="float: right">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </p>
+    <div style="text-align: center">
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, currentSFilter = ViewBag.CurrentSFilter, currentFFilter = ViewBag.CurrentFFilter }))
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

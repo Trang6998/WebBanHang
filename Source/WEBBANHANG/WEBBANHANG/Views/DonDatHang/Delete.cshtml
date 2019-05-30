@@ -1,0 +1,210 @@
+﻿@model WEBBANHANG.Models.Entity.DonDatHang
+@using WEBBANHANG.Models.Entity
+@{
+    ViewBag.Title = "Xử lý đơn hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Bạn có chắc chắn muốn xóa đơn @Model.SoHieuDon?</h2>
+<hr />
+<div class="col-md-12" style="padding: 15px; padding-top:0px; padding-bottom: 0px">
+    <h3>Chi tiết đơn hàng</h3>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <tr>
+                <th>
+                    STT
+                </th>
+                <th>
+                    Sản phẩm
+                </th>
+                <th>
+                    Đơn giá
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Thành tiền
+                </th>
+            </tr>
+
+            @foreach (var item in Model.ChiTietDonDatHangs)
+            {
+                var stt = Model.ChiTietDonDatHangs.ToList().IndexOf(item) + 1;
+                <tr>
+                    <td>
+                        @stt
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-4">
+                                @{
+                                    var imageSource = item.SanPham.AnhSanPham == null ? "" : Url.Content(item.SanPham.AnhSanPham);
+                                }
+                                <img src="@imageSource" width="50" height="50" />
+                            </div>
+                            <div class="col-md-8" style="text-align: -webkit-left">
+                                @item.SanPham.TenSanPham
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @item.GiaXuat
+                    </td>
+                    <td>
+                        @item.SoLuong
+                    </td>
+                    <td>
+                        @{
+                            var thanhTien = item.GiaXuat * item.SoLuong;
+                        }
+                        @thanhTien
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+<div class="col-md-12" style="padding: 15px; padding-top:0px; padding-bottom: 0px">
+    <h4>
+        Tổng tiền:
+        @{ // tổng tiền
+            var tongTien = Model.ChiTietDonDatHangs.Sum(x => x.GiaXuat * x.SoLuong);
+            <span style="color: red">@tongTien</span>
+        }
+    </h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    <div class="col-md-12" style="padding:15px">
+        <h3>Thông tin đơn hàng</h3>
+    </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.DonDatHangID)
+    @Html.HiddenFor(model => model.TaiKhoanDatHangID)
+    @Html.HiddenFor(model => model.TaiKhoanNhanVienID)
+    @Html.HiddenFor(model => model.HenLayDen)
+    @Html.HiddenFor(model => model.HenLayTu)
+    @Html.HiddenFor(model => model.NgayGioTraThucTe)
+    @Html.HiddenFor(model => model.NgayDat)
+    @Html.HiddenFor(model => model.SoHieuDon)
+
+    <div class="col-md-12" style="padding: 10px">
+        <div class="control-label col-md-2">
+            <b>Họ và tên khách hàng</b>
+        </div>
+        <div class="col-md-10" style="padding-top: 7px">
+            @Model.User.HoTen
+        </div>
+    </div>
+
+    <div class="col-md-12" style="padding: 10px">
+        <div class="control-label col-md-2">
+            <b>Ngày đặt</b>
+        </div>
+        <div class="col-md-10" style="padding-top: 7px">
+            @Model.NgayDat
+        </div>
+    </div>
+
+    <div class="col-md-12" style="padding: 10px">
+        <div class="control-label col-md-2">
+            <b>Hẹn lấy từ</b>
+        </div>
+        <div class="col-md-10" style="padding-top: 7px">
+            @Model.HenLayTu
+            đến
+            @Model.HenLayDen
+        </div>
+    </div>
+
+    @if (Model.LaTre == true)
+    {
+        <div class="col-md-12" style="padding: 10px">
+            <div class="control-label col-md-2">
+                <b>Báo trễ đơn</b>
+            </div>
+            <div class="col-md-10">
+                @Html.CheckBox("LaTre", Model.LaTre)
+                @Html.ValidationMessageFor(model => model.LaTre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-12" style="padding: 10px">
+            <div class="control-label col-md-2">
+                <b>Lý do trả trễ</b>
+            </div>
+            <div class="col-md-10">
+                @Model.LyDoTraTre
+            </div>
+        </div>
+    }
+
+    <div class="col-md-12" style="padding: 10px">
+        <div class="control-label col-md-2">
+            <b>Hẹn trả từ</b>
+        </div>
+        <div class="col-md-10" style="padding-top: 7px">
+            @Model.HenTraTu
+            đến
+            @Model.HenTraDen
+        </div>
+    </div>
+    @{
+        if (Model.NgayGioTraThucTe != null)
+        {
+            <div class="col-md-12" style="padding: 10px">
+                <div class="control-label col-md-2">
+                    <b>Ngày giờ trả thực tế</b>
+                </div>
+                <div class="col-md-10">
+                    @Model.NgayGioTraThucTe
+                </div>
+            </div>
+        }
+    }
+
+    <div class="col-md-12" style="padding: 10px">
+        <div class="control-label col-md-2">
+            <b>Ghi chú</b>
+        </div>
+        <div class="col-md-10">
+            @Model.GhiChu
+        </div>
+    </div>
+
+    <div class="col-md-12" style="padding: 10px">
+        <div class="control-label col-md-2">
+            <b>Trạng thái đơn</b>
+        </div>
+        <div class="col-md-10">
+            @{// trạng thái
+                var trangthai = Model.TinhTrang == 0 ? "Giỏ hàng" : (Model.TinhTrang == 1 ? "Chưa nhận đơn" : (Model.TinhTrang == 2 ? "Đang xử lý" : (Model.TinhTrang == 3 ? "Chưa thanh toán" : (Model.TinhTrang == 4 ? "Hoàn thành" : "Không xác định"))));
+                <span>@trangthai</span>
+            }
+        </div>
+    </div>
+
+    <div class="col-md-12" style="padding: 10px">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Xóa" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<div class="row" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","DonDatHang")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+</div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

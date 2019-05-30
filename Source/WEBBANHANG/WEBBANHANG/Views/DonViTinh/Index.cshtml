@@ -1,0 +1,67 @@
+﻿@model PagedList.IPagedList<WEBBANHANG.Models.Entity.DonViTinh>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Đơn vị tính";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Danh sách đơn vị tính</h2>
+<form action="/DonViTinh/Index" method="get" id="Form">
+    <div class="form-group">
+        <div class="control-label col-md-5" style="padding: 0px">
+            <input class="form-control" name="SearchString" value="@ViewBag.CurrentFilter">
+
+        </div>
+        <div class="col-md-2">
+            <input type="submit" value="Tìm kiếm" class="btn btn-default">
+        </div>
+    </div>
+</form>
+
+<div class="row" style="padding: 15px; padding-top: 10px">
+    <button style="float: right" onclick="location.href='@Url.Action("Create", "DonViTinh")'">Thêm mới</button>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+        <tr>
+            <th>STT</th>
+            <th>
+                @Html.ActionLink("Tên đơn vị", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>Thao tác</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            var stt = Model.ToList().IndexOf(item) + 1;
+            <tr>
+                <td>
+                    @stt
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenDonVi)
+                </td>
+                <td class="text-nowrap">
+                    <button data-toggle="tooltip" title="Chỉnh sửa" onclick="location.href='@Url.Action("Edit","DonViTinh",new { id = item.DonViTinhID })'"><i class="fa fa-fw fa-pencil"></i></button>
+                    <button data-toggle="tooltip" title="Xóa" onclick="location.href='@Url.Action("Delete","DonViTinh",new { id = item.DonViTinhID })'"><i class="fa fa-fw fa-trash"></i></button>
+                    <button data-toggle="tooltip" title="Chi tiểt" onclick="location.href='@Url.Action("Details","DonViTinh",new { id = item.DonViTinhID })'"><i class="fa fa-fw fa-info"></i></button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div>
+    <p style="float: right">
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    </p>
+    <div style="text-align: center">
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

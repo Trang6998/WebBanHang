@@ -1,0 +1,30 @@
+﻿@model WEBBANHANG.Models.Entity.DonViTinh
+
+@{
+    ViewBag.Title = "Đơn vị tính";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Chi tiết đơn vị yính</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+           Tên đơn vị
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenDonVi)
+        </dd>
+
+    </dl>
+</div>
+<div class="row" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","DonViTinh")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+    <button onclick="location.href='@Url.Action("Edit","DonViTinh", new { id = Model.DonViTinhID })'">
+        Chỉnh sửa
+    </button>
+</div>

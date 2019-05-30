@@ -1,0 +1,276 @@
+﻿@model WEBBANHANG.Models.Entity.SanPham
+@using WEBBANHANG.Models.Entity
+
+@{
+    ViewBag.Title = "Sản phẩm";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="~/Themes/ckeditor.js"></script>
+
+<h2>Chỉnh sửa thông tin sản phẩm</h2>
+
+@using (Html.BeginForm("Edit", "SanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.SanPhamID)
+    @Html.HiddenFor(model => model.AnhSanPham)
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="col-md-4">
+            <div class="row col-md-6"><b>Ảnh sản phẩm</b></div>
+            <div class="row col-md-6" style="float: right;">
+                <div class="input-group">
+                    <span class="input-group-btn" style="text-align: -webkit-right; padding-right: 10px; padding-bottom: 5px">
+                        <span class="btn btn-default btn-file">
+                            Tải ảnh lên <input type="file" accept="image/*" onchange="loadFile(event)" name="ImageFile" />
+                        </span>
+                    </span>
+                </div>
+            </div>
+            @{
+                var imageSource = Model.AnhSanPham == null ? "" : Url.Content(Model.AnhSanPham);
+            }
+            <div class="row" style="text-align: center">
+                <img id="output" src="@imageSource" width="320" height="320" />
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="col-md-8" style="padding: 10px">
+                <div>Tên sản phẩm</div>
+                <div>
+                    @Html.EditorFor(model => model.TenSanPham, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TenSanPham, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="col-md-4" style="padding: 10px">
+                <div>Ký hiệu sản phẩm</div>
+                <div>
+                    @Html.EditorFor(model => model.KyHieuSanPham, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.KyHieuSanPham, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-8" style="padding: 10px">
+                <div>Danh mục</div>
+                <div>
+                    @Html.DropDownListFor(model => model.LoaiSanPhamID, new SelectList(Model.LoaiSanPhamCollection, "LoaiSanPhamID", "TenLoai"), "Chọn danh mục", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LoaiSanPhamID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4" style="padding: 10px">
+                <div>Đơn vị tính</div>
+                <div>
+                    @Html.DropDownListFor(model => model.DonViTinhID, new SelectList(Model.DonViTinhCollection, "DonViTinhID", "TenDonVi"), "Chọn đơn vị tính", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DonViTinhID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4" style="padding: 10px">
+                <div>Giá bán</div>
+                <div>
+                    @Html.EditorFor(model => model.GiaBan, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GiaBan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4" style="padding: 10px">
+                <div>Nhà cung cấp</div>
+                <div>
+                    @Html.DropDownListFor(model => model.NhaCungCapID, new SelectList(Model.NhaCungCapCollection, "NhaCungCapID", "TenNhaCungCap"), "Chọn nhà cung cấp", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.NhaCungCapID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4" style="padding: 10px">
+                <div>Nhà sản xuất</div>
+                <div>
+                    @Html.EditorFor(model => model.NhaSanXuat, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NhaSanXuat, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding: 10px">
+                <div>Mô tả ngắn</div>
+                <div>
+                    @Html.EditorFor(model => model.MoTaNgan, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MoTaNgan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4" style="padding: 10px">
+                <div class="col-md-9">
+                    Hiện sản phẩm
+                </div>
+                    @Html.CheckBox("AnHienSanPham", (Model.AnHienSanPham == true ? true : false), new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AnHienSanPham, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-4" style="padding: 10px">
+                <div class="col-md-9">
+                    Hiện nhà sản xuất
+                </div>
+                @Html.CheckBox("AnHienNhaSanXuat", (Model.AnHienNhaSanXuat == true ? true : false), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AnHienNhaSanXuat, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4" style="padding: 10px">
+                <div class="col-md-9">
+                    Là sản phẩm mới
+                </div>
+                @Html.CheckBox("LaSanPhamMoi", (Model.LaSanPhamMoi == true ? true : false), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LaSanPhamMoi, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="row" style="padding: 15px"></div>
+        <div class="col-md-12" style="padding-bottom: 5px">
+            <h4>Mô tả sản phẩm </h4>
+            <div>
+                @Html.TextAreaFor(model => model.MoTa, new { @id = "FullDescription", @class = "form-control", @rows = "200" })
+                @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+                <script>
+                    CKEDITOR.replace("FullDescription");
+                </script>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div style="float: right">
+                <input type="submit" value="Cập nhật" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@{
+    <div class="form-horizontal" style="padding: 15px; padding-top: 10px">
+        <h4>Thuộc tính sản phẩm</h4>
+
+        <form action="/ThuocTinhSanPham/Create" method="post">
+            <input class="form-control text-box single-line" style="display: none" id="id" name="id" value="0" type="text">
+            <input class="form-control text-box single-line" style="display: none" name="SanPhamID" value="@Model.SanPhamID" type="text">
+
+            @using (var db = new BanHangEntity())
+            {
+                var lstThuocTinh = db.ThuocTinhs.ToList();
+                <div class="col-md-4" style="padding-top: 10px; padding-right: 15px">
+                    <div>Loại thuộc tính</div>
+                    <div>
+                        <select class="form-control" data-val="true" id="ThuocTinhID" name="ThuocTinhID">
+                            <option value="">Chọn loại thuộc tính</option>
+
+                            @foreach (var tt in lstThuocTinh)
+                            {
+                                <option value="@tt.ThuocTinhID">@tt.TenThuocTinh</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
+            <div class="col-md-8" style="padding-top: 10px; padding-right: 15px">
+                <div>Nội dung mô tả </div>
+                <div>
+                    <input class="form-control text-box single-line" placeholder="Nội dung mô tả ..." id="mota" name="mota" type="text">
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-top: 10px; padding-right: 15px">
+                <div>Ghi chú</div>
+                <div>
+                    <input class="form-control text-box single-line" placeholder="Ghi chú ..." id="ghichu" name="ghichu" type="text">
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding: 10px; padding-right: 15px">
+                <div style="float: right">
+                    <input class="btn btn-default" type="submit" value="Cập nhật">
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive col-md-12">
+            <table id="table" class="table table-striped table-bordered table-hover">
+                <tr>
+                    <th> STT </th>
+                    <th>
+                        Loại thuộc tính
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        Ghi chú
+                    </th>
+                    <th>Thao tác</th>
+                </tr>
+
+                @foreach (var item in Model.ThuocTinhSanPhams)
+                {
+                    var stt = Model.ThuocTinhSanPhams.ToList().IndexOf(item) + 1;
+                    var ghiChu = item.GhiChu;
+                    var mota = item.NoiDungMoTa;
+                    var thuocTinhId = item.ThuocTinhID;
+                    <tr>
+                        <td>
+                            @stt
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ThuocTinh.TenThuocTinh)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NoiDungMoTa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GhiChu)
+                        </td>
+                        <td class="text-nowrap">
+                            <button id="@stt" onclick="fnc( '@mota' ,'@ghiChu', @thuocTinhId, @item.ThuocTinhSanPhamID)" data-toggle="tooltip" title="Chỉnh sửa"><i class="fa fa-fw fa-pencil"></i></button>
+                            <button data-toggle="tooltip" title="Xóa" onclick="location.href='@Url.Action("Delete","ThuocTinhSanPham",new { id = item.ThuocTinhSanPhamID })'"><i class="fa fa-fw fa-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+
+    <div class="col-md-12" style="padding: 15px">
+        <button onclick="location.href='@Url.Action("Index","SanPham")'">
+            <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+        </button>
+    </div>
+}
+<script>
+    function fnc(mota, ghichu, thuocTinhId, id) {
+        document.getElementById("mota").value = mota;
+        document.getElementById("ghichu").value = ghichu;
+        document.getElementById("ThuocTinhID").value = thuocTinhId;
+        document.getElementById("id").value = id;
+    }
+
+
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+</style>

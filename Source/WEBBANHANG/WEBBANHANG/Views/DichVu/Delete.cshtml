@@ -1,0 +1,74 @@
+﻿@model WEBBANHANG.Models.Entity.DichVu
+
+@{
+    /**/
+
+    ViewBag.Title = "Dịch vụ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Xóa dịch vụ</h2>
+
+<h3>Bạn chắc muốn xoá bản ghi này không?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Ảnh sản phẩm
+        </dt>
+        @{
+            var imageSource = Model.AnhDaiDien == null ? "" : Url.Content(Model.AnhDaiDien);
+        }
+        <dd>
+            <img src="@imageSource" width="250" height="250" />
+        </dd>
+
+        <dt>
+            Tên dịch vụ
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenDichVu)
+        </dd>
+
+        <dt>
+            Mô tả ngắn
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MoTaNgan)
+        </dd>
+
+        <dt>
+            Trạng thái
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+
+        <dt>
+            Bài viết
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BaiViet)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-default" />
+
+        </div>
+    }
+</div>
+<div class="row" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","DichVu")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+</div>

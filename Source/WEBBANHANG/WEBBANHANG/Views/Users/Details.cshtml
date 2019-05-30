@@ -1,0 +1,70 @@
+﻿@model WEBBANHANG.Models.Entity.User
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Thông tin chi tiết User</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Ngày lập</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayLap)
+        </dd>
+
+        <dt>Họ và tên</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoTen)
+        </dd>
+
+        <dt>Email</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>Địa chỉ</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+
+        <dt>Loại user</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoaiUser)
+        </dd>
+
+        <dt>PassWord</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassWord)
+        </dd>
+
+        <dt>Tài khoản</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaiKhoan)
+        </dd>
+
+        <dt>Ghi chú</dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GhiChu)
+        </dd>
+
+    </dl>
+</div>
+<div class="row" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("List","Users")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+    <button onclick="location.href='@Url.Action("Edit","Users", new { id = Model.UserId })'">
+        Chỉnh sửa
+    </button>
+</div>

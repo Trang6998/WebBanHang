@@ -1,0 +1,154 @@
+﻿@using WEBBANHANG.Models.Entity
+@{
+    SanPham sanPham = ViewBag.sanPham;
+    ViewBag.Title = "DetailProductView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="single-product-area section-padding-100 clearfix">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mt-50">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        @*<li class="breadcrumb-item"><a href="#">Furniture</a></li>*@
+                        <li class="breadcrumb-item" onclick="goBack()"><a href="#">@Model.LoaiSanPham.TenLoai</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">@Model.TenSanPham</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-7" style="padding-left: 35px">
+                @{
+                    var imageSource = Model.AnhSanPham == null ? "" : Url.Content(Model.AnhSanPham);
+                }
+                <img src="@Url.Content(Model.AnhSanPham)" alt="Image" />
+            </div>
+            <div class="col-12 col-lg-5">
+                <div class="single_product_desc">
+                    <!-- Product Meta Data -->
+                    <div class="product-meta-data">
+                        <h3 class="headline mb-0" style="font-size:30px !important">@Model.TenSanPham</h3>
+                        <p class="product-price" style="color: red">@Model.GiaBan <u>đ</u></p>
+                        @*<a href="product-details.html">
+                                <h6>@Model.TenSanPham</h6>
+                            </a>*@
+                    </div>
+                    <div style="font-size: 20px;color: dimgrey; padding-left: 4px">
+                        <p> Mô tả ngắn: @Model.MoTaNgan</p>
+                    </div>
+                    @*<div>
+                            <p data-html="true">@Html.Raw(Model.MoTa)</p>
+                        </div>*@
+                    @*<div>
+                            <h6><b>Chi tiết sản phẩm:</b></h6>
+                            <ul style="padding-left: 50px">
+                                <li>Mã sản phẩm: @Model.KyHieuSanPham </li>
+                                @{
+                                    var nhasanxuat = "";
+                                    if (Model.AnHienNhaSanXuat == true)
+                                    {
+                                        nhasanxuat = Model.NhaSanXuat;
+                                    }
+                                    else
+                                    {
+                                        nhasanxuat = "Việt Nam";
+                                    }
+                                }
+                                <li>Nhà sản xuất: @nhasanxuat </li>
+                            </ul>
+                        </div>*@
+                    <div class="html_after_addtocart" style="background-color: #fff1dd; padding: 8px; border: 1px dotted red; font-size: 20px;width: 310px;" ">
+                        <b style="color: red">Hỗ trợ mua hàng:</b><br>
+                        <b>Hotline:  0868196788</b>
+                    </div>
+                    <!-- Add to Cart Form -->
+                    <div>
+                        <form class="cart clearfix" action="/Home/Cart" method="post">
+                            @{
+                                var SanPhamID = Model.SanPhamID;
+                                <input type="hidden" name="SanPhamID" value="@Model.SanPhamID" />
+                                <div class="cart-btn d-flex" style="padding: 10px; margin-bottom: 15px !important; padding-left: 0px">
+                                    <p>Số lượng:</p>
+                                    <div class="SoLuong">
+                                        <input type="number" class="qty-text" id="SoLuong" name="SoLuong" step="1" min="1" max="300" value="1" style="padding: 5px;">
+                                    </div>
+                                    <p>@(Model.DonViTinh != null ? (Model.DonViTinh.TenDonVi) : "")</p>
+                                </div>
+                                <button type="submit" name="addtocart" value="5" class="btn amado-btn" style="    line-height: unset; width: 310px; height: 58px;" onclick="success()">
+                                    <span>Thêm vào giỏ</span>
+                                </button>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row wrap" style="padding: 15px">
+            @{
+                if (Model.ThuocTinhSanPhams != null)
+                {
+
+                    <div class="col-lg-12">
+                        <div class="headerCT">CHI TIẾT SẢN PHẨM</div>
+                    </div>
+                    <div class="col-lg-12">
+                        @foreach (var item in Model.ThuocTinhSanPhams)
+                        {
+                            <div class="row" style="margin-left: 0px;padding: 15px;">
+                                <label class="_1ymsZN">
+                                    @item.ThuocTinh.TenThuocTinh
+                                </label>
+                                <div>@item.NoiDungMoTa</div>
+                            </div>
+
+                        }
+                    </div>
+                }
+            }
+            <div class="col-lg-12">
+                <div class="headerCT">MÔ TẢ SẢN PHẨM</div>
+            </div>
+            <div class="col-lg-12">
+                <div class="_2aZyWI">
+                    <div>
+                        <span>@Html.Raw(Model.MoTa)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+    function success() {
+        alert("Thêm vào giỏ hàng thành công");
+        //window.location.reload;
+
+    }
+</script>
+<style>
+    ._2aZyWI {
+        margin: 1.875rem .9375rem .9375rem;
+    }
+
+    .headerCT {
+        background: rgba(0,0,0,.02);
+        color: rgba(0,0,0,.87);
+        font-size: 20px;
+        padding: .875rem;
+        text-transform: capitalize;
+    }
+
+    ._1ymsZN {
+        color: rgba(0,0,0,.4);
+        font-size: 16px;
+        width: 6.25rem;
+</style>
+

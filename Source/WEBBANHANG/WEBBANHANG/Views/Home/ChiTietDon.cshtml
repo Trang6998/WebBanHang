@@ -1,0 +1,102 @@
+﻿@using WEBBANHANG.Models.Entity
+@{
+    ViewBag.Title = "ChiTietDon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    double? sub = 0;
+    DonDatHang donDatHang = new DonDatHang();
+    donDatHang = ViewBag.donDatHang;
+}
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <h3>Đơn hàng số @donDatHang.SoHieuDon</h3>
+        </div>
+        <div class="row">
+            @foreach (var i in donDatHang.ChiTietDonDatHangs)
+            {
+                <div class="col-3 col-sm-3 col-md-3 col-xl-3">
+                    <div class="single-product-wrapper" style="margin-bottom: 0px">
+                        <!-- Product Image -->
+                        <div class="product-img">
+                            @{
+                                var imageSource = i.SanPham == null ? "" : Url.Content(i.SanPham.AnhSanPham);
+                            }
+                            <img src="@imageSource" alt="Image" style="width: 170px!important ; height: 170px!important " />
+                        </div>
+                        <!-- Product Description -->
+                        <div class="product-description d-flex align-items-center justify-content-between">
+                            <!-- Product Meta Data -->
+                            <div class="product-meta-data">
+                                <div class="line"></div>
+                                <h4>@i.SanPham.TenSanPham</h4>
+                                <p class="product-price">@i.SanPham.GiaBan <u>đ</u></p>
+                                <p class="product-sl">x @i.SoLuong</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {
+                    if (i.GiaXuat != null && i.SoLuong != null)
+                    {
+                        sub = sub + (i.GiaXuat * i.SoLuong);
+                    }
+
+                }
+            }
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                <h3 style="color:red">Tổng tiền: @sub <u>đ</u></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                <h5>Ngày đặt: @donDatHang.NgayDat</h5>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                <h5>Hẹn lấy hàng: @donDatHang.HenLayTu - @donDatHang.HenLayDen</h5>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                <h5>Hẹn trả hàng: @donDatHang.HenTraTu - @donDatHang.HenTraDen</h5>
+            </div>
+            @{
+                if (donDatHang.LaTre != null)
+                {
+                    <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                        <h5>Lý do trả trễ đơn: @donDatHang.LyDoTraTre</h5>
+                    </div>
+                }
+            }
+            @{
+                var trangThai = "";
+                if (donDatHang.TinhTrang == 0)
+                {
+                    trangThai = "Chưa đặt hàng";
+                }
+                if (donDatHang.TinhTrang == 1)
+                {
+                    trangThai = "Đã đặt hàng";
+                }
+                if (donDatHang.TinhTrang == 2)
+                {
+                    trangThai = "Đã nhận đơn(đang xử lý)";
+                }
+                if (donDatHang.TinhTrang == 3)
+                {
+                    trangThai = "Chưa thanh toán";
+                }
+                if (donDatHang.TinhTrang == 4)
+                {
+                    trangThai = "Hoàn thành";
+                }
+            }
+            <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                <h5>Ghi chú: @donDatHang.GhiChu</h5>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-xl-12">
+                <h5>Tình trạng: @trangThai</h5>
+            </div>
+
+        </div>
+    </div>
+</div>

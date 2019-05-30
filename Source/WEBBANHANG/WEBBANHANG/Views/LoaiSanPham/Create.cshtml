@@ -1,0 +1,114 @@
+﻿@model WEBBANHANG.Models.Entity.LoaiSanPham
+@using WEBBANHANG.Models.Entity;
+
+@{
+    ViewBag.Title = "Danh mục";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Thêm mới danh mục sản phẩm</h2>
+
+@using (Html.BeginForm("Create", "LoaiSanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-4">
+            <div class="row col-md-6">
+                <b>Ảnh đại diện</b>
+            </div>
+            <div class="row col-md-6" style="float: right;">
+                <div class="input-group">
+                    <span class="input-group-btn" style="text-align: -webkit-right; padding-right: 10px; padding-bottom: 5px">
+                        <span class="btn btn-default btn-file">
+                            Tải ảnh lên <input type="file" accept="image/*" onchange="loadFile(event)" name="ImageFile" />
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="row col-md-12" style="text-align: left">
+                <img id="output" width="320" height="320" />
+            </div>
+        </div>
+        <div class="col-md-8" style="padding: 15px">
+
+            <div class="col-md-12" style="padding: 10px">
+                <div>
+                    Tên danh mục
+                </div>
+                <div>
+                    @Html.EditorFor(model => model.TenLoai, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TenLoai, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding: 10px">
+                <div>
+                    Danh mục cha (nếu có)
+                </div>
+                <div>
+                    @using (var db = new BanHangEntity())
+                    {
+                        var lstLoaiSanPham = db.LoaiSanPhams.Where(x => x.LoaiSanPhamPID == null).ToList();
+                        @Html.DropDownListFor(model => model.LoaiSanPhamPID, new SelectList(lstLoaiSanPham, "LoaiSanPhamID", "TenLoai"), "Chọn danh mục", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LoaiSanPhamPID, "", new { @class = "text-danger" })
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding: 10px">
+                <div>
+                    Mô tả
+                </div>
+                <div style="width: 100%">
+                    @Html.EditorFor(model => model.MoTa, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding: 10px">
+                <div style="float: left">
+                    <input type="submit" value="Thêm mới" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+}
+
+<div class="col-md-12" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","LoaiSanPham")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+</div>
+<script>
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            background: white;
+            cursor: inherit;
+            display: block;
+        }
+</style>
