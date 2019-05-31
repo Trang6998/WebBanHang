@@ -9,7 +9,7 @@
     <div class="amado-pro-catagory clearfix">
         @foreach (var i in lst)
         {
-                <div class="single-products-catagory clearfix">
+                <div class="single-products-catagory clearfix" style="padding:10px">
                     @{
                         var url = "/Home/ListProductView?loaiSanPhamID=" + i.LoaiSanPhamID;
                     }
@@ -21,8 +21,8 @@
                         <!-- Hover Content -->
                         <div class="hover-content">
                             <div class="line"></div>
-                            <p>@i.MoTa</p>
-                            <h4>@i.TenLoai</h4>
+                            
+                            <h3><b>@i.TenLoai</b></h3>
                         </div>
                     </a>
                 </div>
