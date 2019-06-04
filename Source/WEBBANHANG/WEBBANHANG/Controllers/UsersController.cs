@@ -48,9 +48,9 @@ namespace WEBBANHANG.Controllers
                     if (donDatHang != null)
                     {
                         int? soluong = 0;
-                        foreach (var i in donDatHang.ChiTietDonDatHangs)
+                        for (int i= 0; i < donDatHang.ChiTietDonDatHangs.Count(); i ++)
                         {
-                            soluong = soluong + i.SoLuong;
+                            soluong = soluong + donDatHang.ChiTietDonDatHangs.ElementAt(i).SoLuong;
                         }
                         Session["soluong"] = soluong;
                     }
@@ -64,7 +64,7 @@ namespace WEBBANHANG.Controllers
                 }
                 else
                 {
-                    TempData["msg"] = "Mật khẩu không chính xác!";
+                    TempData["msg"] = "Tên tài khoản và mật khẩu không hợp lệ!";
                     //return RedirectToAction("Index");
                     return PartialView("~/Views/Shared/LoginLoi.cshtml");
                 }
@@ -73,7 +73,7 @@ namespace WEBBANHANG.Controllers
             }
             else
             {
-                TempData["msg"] = "Tài khoản không tồn tại!";
+                TempData["msg"] = "Tên tài khoản và mật khẩu không hợp lệ!";
                 //return RedirectToAction("Index");
                 return PartialView("~/Views/Shared/LoginLoi.cshtml");
             }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WEBBANHANG.Models.Entity;
+using WEBBANHANG.Models;
 
 namespace WEBBANHANG.Controllers
 {
@@ -87,7 +88,7 @@ namespace WEBBANHANG.Controllers
                         dondat.NgayDat = DateTime.Now;
                         var shd = "SHD" + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Year + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second;
                         dondat.SoHieuDon = shd;
-                        dondat.TinhTrang = 0;
+                        dondat.TinhTrang = TrangThaiDonHang.CHUA_GUI;
                         ChiTietDonDatHang chiTietDonDatHang = new ChiTietDonDatHang();
                         chiTietDonDatHang.SanPhamID = SanPhamID;
                         chiTietDonDatHang.SoLuong = SoLuong;
@@ -156,13 +157,15 @@ namespace WEBBANHANG.Controllers
         {
             using (var db = new BanHangEntity())
             {
+                // Nếu chưa đăng nhập thì trả về trang đăng nhập
                 if (Session["username"] == null)
                 {
                     return RedirectToAction("/Index", "Users");
                 }
+                // Nếu đăng nhập rồi thì hiển thị danh sách hàng trong giỏ
                 else
                 {
-                    int id = (int)Session["usernameid"];
+                    int id = (int)Session["usernameid"];  // Session chứa id của tài khoản đăng nhập
                     var lstSanPham = db.ChiTietDonDatHangs.Include(x => x.SanPham).ToList();
                     var donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
                     if (donDatHang != null)
@@ -284,7 +287,7 @@ namespace WEBBANHANG.Controllers
         {
             return View();
         }
-        public ActionResult ListProductView(int? loaiSanPhamID, int? khoangGiaTu, int? khoangGiaDen, string laMoi, string sortOrder, string currentFilter, string tenSanPham, int? page)
+        public ActionResult ListProductView(int? loaiSanPhamID, int? khoangGiaTu, int? khoangGiaDen, string isNew, string sortOrder, string currentFilter, string tenSanPham, int? page)
         {
             if (Session["username"] == null)
                 return RedirectToAction("/Index", "Users");
@@ -312,7 +315,7 @@ namespace WEBBANHANG.Controllers
                     string qrten = "";
                     string qrgiatu = "";
                     string qrgiaden = "";
-                    string qrlamoi = "";
+                    string qrisNew = "";
                     if (!String.IsNullOrEmpty(tenSanPham))
                         qrten = " TenSanPham like N'%" + tenSanPham + "%'";
 
@@ -321,19 +324,19 @@ namespace WEBBANHANG.Controllers
 
                     if (khoangGiaDen.HasValue)
                         qrgiaden = " GiaBan <= " + khoangGiaDen;
-                    if (!String.IsNullOrEmpty(laMoi))
+                    if (!String.IsNullOrEmpty(isNew))
                     {
-                        if (laMoi == "on")
+                        if (isNew == "on")
                         {
-                            qrlamoi = " LaSanPhamMoi =" + 0;
+                            qrisNew = " LaSanPhamMoi =" + 0;
                         }
-                        if (laMoi != "")
+                        if (isNew != "")
                         {
-                            qrlamoi = " LaSanPhamMoi =" + 1;
+                            qrisNew = " LaSanPhamMoi =" + 1;
                         }
                     }
-                    if (!String.IsNullOrEmpty(tenSanPham) || (khoangGiaTu.HasValue) || (khoangGiaDen.HasValue) || (!String.IsNullOrEmpty(laMoi)))
-                        query = query + " and" + qrten + (qrgiatu != "" ? (qrten != "" ? " and " : "") + qrgiatu : "") + (qrgiaden != "" ? (qrgiatu != "" ? " and " : "") + qrgiaden : "") + (qrlamoi != "" ? (qrgiaden != "" ? " and " : "") + qrlamoi : "");
+                    if (!String.IsNullOrEmpty(tenSanPham) || (khoangGiaTu.HasValue) || (khoangGiaDen.HasValue) || (!String.IsNullOrEmpty(isNew)))
+                        query = query + " and" + qrten + (qrgiatu != "" ? (qrten != "" ? " and " : "") + qrgiatu : "") + (qrgiaden != "" ? (qrgiatu != "" ? " and " : "") + qrgiaden : "") + (qrisNew != "" ? (qrgiaden != "" ? " and " : "") + qrisNew : "");
 
                     int pageSize = 4;
                     int pageNumber = (page ?? 1);

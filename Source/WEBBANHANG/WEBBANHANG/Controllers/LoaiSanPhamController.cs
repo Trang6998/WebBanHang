@@ -25,7 +25,7 @@ namespace WEBBANHANG.Controllers
             if (Session["username"] == null)
                 return RedirectToAction("/Index", "Users");
             else
-            {
+            {   
                 ViewBag.CurrentSort = sortOrder;
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
