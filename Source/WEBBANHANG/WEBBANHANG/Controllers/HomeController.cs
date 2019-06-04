@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using WEBBANHANG.Models.Entity;
 using WEBBANHANG.Models;
+using G02Apis.Models;
 
 namespace WEBBANHANG.Controllers
 {
@@ -240,7 +241,7 @@ namespace WEBBANHANG.Controllers
                     //var chiTiet = db.ChiTietDonDatHangs.Where(x => x.SanPhamID == SanPhamID).FirstOrDefault();
                     if (donDatHang != null)
                     {
-                        if (henTu.HasValue && henDen.HasValue)
+                        if (henTu.HasValue && henDen.HasValue && String.IsNullOrEmpty(ghiChu))
                         {
                             donDatHang.TinhTrang = 1;
                             donDatHang.HenLayTu = henTu;
@@ -248,16 +249,50 @@ namespace WEBBANHANG.Controllers
                             db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }
-                        if (!String.IsNullOrEmpty(ghiChu))
+                        else if (!henTu.HasValue && henDen.HasValue && String.IsNullOrEmpty(ghiChu))
                         {
                             donDatHang.TinhTrang = 1;
-                            donDatHang.GhiChu = ghiChu;
-                            //donDatHang.HenLayTu = henTu;
-                            //donDatHang.HenLayDen = henDen;
+                            donDatHang.HenLayDen = henDen;
                             db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
                             db.SaveChanges();
                         }
-                        if (henTu.HasValue && henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        else if (henTu.HasValue && !henDen.HasValue && String.IsNullOrEmpty(ghiChu))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.HenLayTu = henTu;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (!henTu.HasValue && !henDen.HasValue && String.IsNullOrEmpty(ghiChu))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (!henTu.HasValue && henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.GhiChu = ghiChu;
+                            donDatHang.HenLayDen = henDen;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (henTu.HasValue && !henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.GhiChu = ghiChu;
+                            donDatHang.HenLayTu = henTu;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (!henTu.HasValue && !henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.GhiChu = ghiChu;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (henTu.HasValue && henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
                         {
                             donDatHang.TinhTrang = 1;
                             donDatHang.HenLayTu = henTu;
