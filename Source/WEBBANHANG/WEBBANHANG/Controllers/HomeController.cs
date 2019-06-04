@@ -350,7 +350,7 @@ namespace WEBBANHANG.Controllers
                     string qrten = "";
                     string qrgiatu = "";
                     string qrgiaden = "";
-                    string qrisNew = "";
+                    string qrlaMoi = "";
                     if (!String.IsNullOrEmpty(tenSanPham))
                         qrten = " TenSanPham like N'%" + tenSanPham + "%'";
 
@@ -363,15 +363,15 @@ namespace WEBBANHANG.Controllers
                     {
                         if (laMoi == "on")
                         {
-                            qrisNew = " LaSanPhamMoi =" + 0;
+                            qrlaMoi = " LaSanPhamMoi =" + 0;
                         }
                         if (laMoi != "")
                         {
-                            qrisNew = " LaSanPhamMoi =" + 1;
+                            qrlaMoi = " LaSanPhamMoi =" + 1;
                         }
                     }
                     if (!String.IsNullOrEmpty(tenSanPham) || (khoangGiaTu.HasValue) || (khoangGiaDen.HasValue) || (!String.IsNullOrEmpty(laMoi)))
-                        query = query + " and" + qrten + (qrgiatu != "" ? (qrten != "" ? " and " : "") + qrgiatu : "") + (qrgiaden != "" ? (qrgiatu != "" ? " and " : "") + qrgiaden : "") + (qrisNew != "" ? (qrgiaden != "" ? " and " : "") + qrisNew : "");
+                        query = query + " and" + qrten + (qrgiatu != "" ? (qrten != "" ? " and " : "") + qrgiatu : "") + (qrgiaden != "" ? (qrgiatu != "" ? " and " : "") + qrgiaden : "") + (qrlaMoi != "" ? (qrgiaden != "" ? " and " : "") + qrlaMoi : "");
 
                     int pageSize = 4;
                     int pageNumber = (page ?? 1);
