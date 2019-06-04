@@ -112,18 +112,18 @@
                             <li>
                                 <div >
                                     <span>hẹn lấy hàng từ:</span>
-                                    <input  style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henTu" name="henTu" />
+                                    <input  style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henTu" name="henTu" required/>
                                 </div>
                             </li>
                             <li>
                                 <div>
-                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henDen" name="henDen" />
+                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henDen" name="henDen" required/>
                                 </div>
                             </li>
                             <li>
                                 <div>
                                     <span>ghi chú với đơn:</span>
-                                    <textarea style=" border-width: 1px;border-radius: 4px;padding: 5px; width: 100%" type="text" id="ghiChu" name="ghiChu"></textarea>
+                                    <textarea style=" border-width: 1px;border-radius: 4px;padding: 5px; width: 100%" type="text" id="ghiChu" name="ghiChu" required></textarea>
                                 </div>
                             </li>
                         </ul>
@@ -141,13 +141,17 @@
 </html>
 <script>
     function someFunction() {
-        alert("Đặt hàng thành công");
+        
         var henTu = document.getElementById("henTu").value;
         var henDen = document.getElementById("henDen").value;
         var ghiChu = document.getElementById("ghiChu").value;
         //alert(henTu);
         var url = '/Home/DatHang?henTu=' + henTu + '&henDen=' + henDen + '&ghiChu=' + ghiChu;
-        window.location.href = url;
+        if (confirm("Bạn có chắc muốn đặt hàng?")) {
+            alert("Đặt hàng thành công");
+            window.location.href = url;
+        }
+      
     }
 </script>
 
