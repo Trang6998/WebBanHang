@@ -117,7 +117,7 @@
                             </li>
                             <li>
                                 <div>
-                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henDen" name="henDen" required/>
+                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henDen" name="henDen" onkeyup="" required/>
                                 </div>
                             </li>
                             <li>
@@ -145,12 +145,19 @@
         var henTu = document.getElementById("henTu").value;
         var henDen = document.getElementById("henDen").value;
         var ghiChu = document.getElementById("ghiChu").value;
-        //alert(henTu);
-        var url = '/Home/DatHang?henTu=' + henTu + '&henDen=' + henDen + '&ghiChu=' + ghiChu;
-        if (confirm("Bạn có chắc muốn đặt hàng?")) {
-            alert("Đặt hàng thành công");
-            window.location.href = url;
+
+        if (henTu != null && henDen != null && henDen < henTu) {
+            alert("Phải chọn đúng ngày lấy hàng!")
         }
+        else {
+            var url = '/Home/DatHang?henTu=' + henTu + '&henDen=' + henDen + '&ghiChu=' + ghiChu;
+            if (confirm("Bạn có chắc muốn đặt hàng?")) {
+                alert("Đặt hàng thành công");
+                window.location.href = url;
+            }
+        }
+
+
       
     }
 </script>
