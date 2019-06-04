@@ -322,7 +322,7 @@ namespace WEBBANHANG.Controllers
         {
             return View();
         }
-        public ActionResult ListProductView(int? loaiSanPhamID, int? khoangGiaTu, int? khoangGiaDen, string isNew, string sortOrder, string currentFilter, string tenSanPham, int? page)
+        public ActionResult ListProductView(int? loaiSanPhamID, int? khoangGiaTu, int? khoangGiaDen, string laMoi, string sortOrder, string currentFilter, string tenSanPham, int? page)
         {
             if (Session["username"] == null)
                 return RedirectToAction("/Index", "Users");
@@ -359,18 +359,18 @@ namespace WEBBANHANG.Controllers
 
                     if (khoangGiaDen.HasValue)
                         qrgiaden = " GiaBan <= " + khoangGiaDen;
-                    if (!String.IsNullOrEmpty(isNew))
+                    if (!String.IsNullOrEmpty(laMoi))
                     {
-                        if (isNew == "on")
+                        if (laMoi == "on")
                         {
                             qrisNew = " LaSanPhamMoi =" + 0;
                         }
-                        if (isNew != "")
+                        if (laMoi != "")
                         {
                             qrisNew = " LaSanPhamMoi =" + 1;
                         }
                     }
-                    if (!String.IsNullOrEmpty(tenSanPham) || (khoangGiaTu.HasValue) || (khoangGiaDen.HasValue) || (!String.IsNullOrEmpty(isNew)))
+                    if (!String.IsNullOrEmpty(tenSanPham) || (khoangGiaTu.HasValue) || (khoangGiaDen.HasValue) || (!String.IsNullOrEmpty(laMoi)))
                         query = query + " and" + qrten + (qrgiatu != "" ? (qrten != "" ? " and " : "") + qrgiatu : "") + (qrgiaden != "" ? (qrgiatu != "" ? " and " : "") + qrgiaden : "") + (qrisNew != "" ? (qrgiaden != "" ? " and " : "") + qrisNew : "");
 
                     int pageSize = 4;
