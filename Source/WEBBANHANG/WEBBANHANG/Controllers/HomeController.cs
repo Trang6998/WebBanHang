@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using WEBBANHANG.Models.Entity;
 using WEBBANHANG.Models;
-using G02Apis.Models;
+using WEBBANHANG.Models;
 
 namespace WEBBANHANG.Controllers
 {
@@ -333,6 +333,11 @@ namespace WEBBANHANG.Controllers
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
                 ViewBag.khoangGiaTu = khoangGiaTu;
                 ViewBag.khoangGiaDen = khoangGiaDen;
+                if(laMoi!= null)
+                {
+                    ViewBag.laMoi = true ;
+
+                }
                 if (tenSanPham != null)
                 {
                     page = 1;
@@ -352,26 +357,26 @@ namespace WEBBANHANG.Controllers
                     string qrgiaden = "";
                     string qrlaMoi = "";
                     if (!String.IsNullOrEmpty(tenSanPham))
-                        qrten = " TenSanPham like N'%" + tenSanPham + "%'";
+                        qrten = " and TenSanPham like N'%" + tenSanPham + "%'";
 
                     if (khoangGiaTu.HasValue)
-                        qrgiatu = " GiaBan >= " + khoangGiaTu;
+                        qrgiatu = " and GiaBan >= " + khoangGiaTu;
 
                     if (khoangGiaDen.HasValue)
-                        qrgiaden = " GiaBan <= " + khoangGiaDen;
+                        qrgiaden = " and GiaBan <= " + khoangGiaDen;
                     if (!String.IsNullOrEmpty(laMoi))
                     {
                         if (laMoi == "on")
                         {
-                            qrlaMoi = " LaSanPhamMoi =" + 0;
+                            qrlaMoi = " and LaSanPhamMoi =" + 0;
                         }
                         if (laMoi != "")
                         {
-                            qrlaMoi = " LaSanPhamMoi =" + 1;
+                            qrlaMoi = " and LaSanPhamMoi =" + 1;
                         }
                     }
                     if (!String.IsNullOrEmpty(tenSanPham) || (khoangGiaTu.HasValue) || (khoangGiaDen.HasValue) || (!String.IsNullOrEmpty(laMoi)))
-                        query = query + " and" + qrten + (qrgiatu != "" ? (qrten != "" ? " and " : "") + qrgiatu : "") + (qrgiaden != "" ? (qrgiatu != "" ? " and " : "") + qrgiaden : "") + (qrlaMoi != "" ? (qrgiaden != "" ? " and " : "") + qrlaMoi : "");
+                        query = query + " " + qrten + (qrgiatu != "" ? (qrten != "" ? "  " : "") + qrgiatu : "") + (qrgiaden != "" ? (qrgiatu != "" ? "  " : "") + qrgiaden : "") + (qrlaMoi != "" ? (qrgiaden != "" ? "  " : "") + qrlaMoi : "");
 
                     int pageSize = 4;
                     int pageNumber = (page ?? 1);
