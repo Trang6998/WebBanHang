@@ -55,7 +55,7 @@
                                     if (Model != null)
                                     {
                                         foreach (var i in Model)
-                                     {
+                                        {
                                     <tr>
                                         @{
                                             var imageSource = i.SanPham.AnhSanPham == null ? "" : Url.Content(i.SanPham.AnhSanPham);
@@ -84,18 +84,15 @@
                                         <td class="quantity" style="max-width:20%">
                                             <span>@sl</span>
                                         </td>
-                                        @{ 
-                                            var url = "/Home/DeleteItem?SanPhamID=" + i.SanPhamID;
-                                        }
                                         <td class="huy" style="max-width:20%">
-                                            <a href="@url" class="fav-nav"><img src="~/Content_Web/img/core-img/remove_product_delete-512.png" alt=""> Huỷ</a>
+                                            <a href="javascript: DeleteProduct(@i.SanPhamID)" class="fav-nav"><img src="~/Content_Web/img/core-img/remove_product_delete-512.png" alt=""> Huỷ</a>
                                         </td>
                                     </tr>
-                                            }
+                                                }
                                             }
                                             else
                                             {
-                                                <div>Không có sản phẩm nào trong giỏ</div>
+                                                    <div>Không có sản phẩm nào trong giỏ</div>
                                             }
                                             }
                             </tbody>
@@ -106,21 +103,18 @@
                     <div class="cart-summary">
                         <h5>Tổng Tiền </h5>
                         <ul class="summary-table">
-                            <li><span>subtotal:</span> <span>$@ViewBag.TongTien</span></li>
-                            <li><span>delivery:</span> <span>Free</span></li>
-                            <li><span>total:</span> <span>$@ViewBag.TongTien</span></li>
                             <li><span>Thành tiền:</span> <span>$@ViewBag.TongTien</span></li>
                             <li><span>Vận chuyển:</span> <span>Free</span></li>
                             <li><span>Tiền phải thanh toán:</span> <span>$@ViewBag.TongTien</span></li>
                             <li>
-                                <div >
+                                <div>
                                     <span>hẹn lấy hàng từ:</span>
-                                    <input  style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="date" id="henTu" name="henTu" required/>
+                                    <input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henTu" name="henTu" required />
                                 </div>
                             </li>
                             <li>
                                 <div>
-                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="date" id="henDen" name="henDen" onkeyup="" required/>
+                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henDen" name="henDen" onkeyup="" required />
                                 </div>
                             </li>
                             <li>
@@ -130,9 +124,19 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="cart-btn mt-100">
-                            <a style=" margin-top: -100px;" href="javascript:someFunction()" class="btn amado-btn w-100">Đặt hàng</a>
-                        </div>
+                        @{
+                            if (Model.Count != 0)
+                            {
+                                <div class="cart-btn mt-100">
+                                    <a style=" margin-top: -100px;" href="javascript:someFunction()" class="btn amado-btn w-100">Đặt hàng</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div></div>
+                            }
+                        }
+
                     </div>
                 </div>
             </div>
@@ -148,9 +152,9 @@
         var henTu = document.getElementById("henTu").value;
         var henDen = document.getElementById("henDen").value;
         var ghiChu = document.getElementById("ghiChu").value;
-        alert(henTu);
+
         if (henTu != null && henDen != null && henDen < henTu) {
-            alert("Phải chọn đúng ngày lấy hàng!");
+            alert("Phải chọn đúng ngày lấy hàng!")
         }
         else {
             var url = '/Home/DatHang?henTu=' + henTu + '&henDen=' + henDen + '&ghiChu=' + ghiChu;
@@ -159,9 +163,14 @@
                 window.location.href = url;
             }
         }
-
-
       
+    }
+    function DeleteProduct(SanPhamID) {
+        if (confirm("Bạn có chắc muốn hủy sản phẩm này?")) {
+            var url = "/Home/DeleteItem?SanPhamID=" + SanPhamID;
+            window.location.href = url;
+            alert("Hủy thành công");
+        }
     }
 </script>
 
