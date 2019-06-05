@@ -9,6 +9,10 @@
     lstSP = ViewBag.lstSP;
     ViewBag.Title = "ListProductView";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var check = "checked";
+    if (ViewBag.laMoi == null)
+    { check = ""; }
+
 }
 <div class="amado_product_area section-padding-100">
     <div class="container-fluid">
@@ -29,7 +33,8 @@
                             </div>
                             <div class=" control-label  col-md-4 " style="padding: 0px">
                                 <div class="row" style="padding: 10px;">
-                                    <div class="col-md-2" style="margin-left: 15px;margin-right: -15px;margin-top: 5px;"><input class="form-control" name="laMoi" type="checkbox" value="@ViewBag.laMoi"></div>
+                                    <div class="col-md-2" style="margin-left: 15px;margin-right: -15px;margin-top: 5px;"><input class="form-control" name="laMoi" type="checkbox" value="@ViewBag.laMoi" @check /></div>
+
                                     <div class="col-md-8">Là sản phẩm mới</div>
                                 </div>
                                 @*<div class="col-md-2"><input class="form-control" name="laMoi" type="checkbox" value="@ViewBag.laMoi" checked></div>*@
@@ -135,6 +140,7 @@
     });
 </script>
 <style>
+
 
     .new {
         background-color: red;

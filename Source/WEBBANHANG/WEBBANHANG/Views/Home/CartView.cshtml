@@ -106,18 +106,21 @@
                     <div class="cart-summary">
                         <h5>Tổng Tiền </h5>
                         <ul class="summary-table">
+                            <li><span>subtotal:</span> <span>$@ViewBag.TongTien</span></li>
+                            <li><span>delivery:</span> <span>Free</span></li>
+                            <li><span>total:</span> <span>$@ViewBag.TongTien</span></li>
                             <li><span>Thành tiền:</span> <span>$@ViewBag.TongTien</span></li>
                             <li><span>Vận chuyển:</span> <span>Free</span></li>
                             <li><span>Tiền phải thanh toán:</span> <span>$@ViewBag.TongTien</span></li>
                             <li>
                                 <div >
                                     <span>hẹn lấy hàng từ:</span>
-                                    <input  style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henTu" name="henTu" required/>
+                                    <input  style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="date" id="henTu" name="henTu" required/>
                                 </div>
                             </li>
                             <li>
                                 <div>
-                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="datetime-local" id="henDen" name="henDen" onkeyup="" required/>
+                                    <span>hẹn lấy hàng đến:</span><input style=" border-width: 1px;border-radius: 4px;padding: 5px;" type="date" id="henDen" name="henDen" onkeyup="" required/>
                                 </div>
                             </li>
                             <li>
@@ -145,9 +148,9 @@
         var henTu = document.getElementById("henTu").value;
         var henDen = document.getElementById("henDen").value;
         var ghiChu = document.getElementById("ghiChu").value;
-
+        alert(henTu);
         if (henTu != null && henDen != null && henDen < henTu) {
-            alert("Phải chọn đúng ngày lấy hàng!")
+            alert("Phải chọn đúng ngày lấy hàng!");
         }
         else {
             var url = '/Home/DatHang?henTu=' + henTu + '&henDen=' + henDen + '&ghiChu=' + ghiChu;

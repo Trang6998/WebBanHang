@@ -5,10 +5,8 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
     int soluong = (int)Session["soluong"];
 }
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -17,16 +15,12 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <!-- Title  -->
     <title>Shop Online</title>
-
     <!-- Favicon  -->
     <link rel="icon" href="~/Content_Web/img/core-img/favicon.ico">
-
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="~/Content_Web/css/core-style.css">
     <link rel="stylesheet" href="~/Content_Web/style.css">
-
 </head>
-
 <body>
     <!-- Search Wrapper Area Start -->
     <div class="search-wrapper section-padding-100">
@@ -49,7 +43,6 @@
     <!-- Search Wrapper Area End -->
     <!-- ##### Main Content Wrapper Start ##### -->
     <div class="main-content-wrapper d-flex clearfix">
-
         <!-- Mobile Nav (max width 767px)-->
         <div class="mobile-nav">
             <!-- Navbar Brand -->
@@ -61,7 +54,6 @@
                 <span></span><span></span><span></span>
             </div>
         </div>
-
         <!-- Header Area Start -->
         <header class="header-area clearfix">
             <!-- Close Icon -->
@@ -96,7 +88,7 @@
                     </span>
                 </a>
                 <a href="~/Home/Create" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng kí</a>
-                <a href="~/Users/Logout" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng xuất</a>
+                <a onclick="LockOut()" href="#" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng xuất</a>
                 @{
                     User u = (User)(Session["user"]);
                     if (u.LoaiUser == 2)
@@ -104,9 +96,7 @@
                         <a href="~/LoaiSanPham/Index" class="search-nav"><img src="~/Content_Web/img/core-img/search.png" alt=""> Admin</a>
                     }
                 }
-
             </div>
-
         </header>
         <!-- Header Area End -->
         <!-- Product Catagories Area Start -->
@@ -196,11 +186,10 @@
     <script src="~/Content_Web/js/plugins.js"></script>
     <!-- Active js -->
     <script src="~/Content_Web/js/active.js"></script>
-
 </body>
-
 </html>
 <style>
+
     .ex5 {
         right: 61%;
         top: -15%;
@@ -217,3 +206,13 @@
         min-width: 1.5em;
     }
 </style>
+<script>
+    function LockOut() {
+        //alert(henTu);
+        var url = '/Users/Logout'
+        if (confirm("Bạn có chắc muốn đăng xuất?")) {
+            window.location.href = url;
+        }
+
+    }
+</script>
