@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using WEBBANHANG.Models.Entity;
 using WEBBANHANG.Models;
-using WEBBANHANG.Models;
 
 namespace WEBBANHANG.Controllers
 {

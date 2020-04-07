@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WEBBANHANG.Models.Entity;
+using System.Data.Entity;
 
 namespace WEBBANHANG.Controllers
 {
@@ -146,7 +147,7 @@ namespace WEBBANHANG.Controllers
                 {
                     try
                     {
-                        DonDatHang donDatHang = db.DonDatHangs.Include("User").Include("ChiTietDonDatHangs").Include("ChiTietDonDatHangs.SanPham").FirstOrDefault(x => x.DonDatHangID == id);
+                        DonDatHang donDatHang = db.DonDatHangs.Include("User").Include("ChiTietDonDatHangs").Include("ChiTietDonDatHangs.SanPham").Include("ChiTietDonDatHangs.SanPham.NhaCungCap").FirstOrDefault(x => x.DonDatHangID == id);
                         return View(donDatHang);
                     }
                     catch (Exception ex)

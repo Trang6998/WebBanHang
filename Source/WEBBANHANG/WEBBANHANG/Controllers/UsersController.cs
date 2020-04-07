@@ -17,6 +17,26 @@ namespace WEBBANHANG.Controllers
         {
             return View();
         }
+        //public ActionResult getUser()
+        //{
+        //    db = new BanHangEntity();
+        //    List<User> lstUser = new List<User>();
+        //    lstUser = db.Users.ToList();
+        //    //foreach(var i in lstUser)
+        //    //{
+        //    //    List<DonDatHang> lstDonDat = new List<DonDatHang>();
+        //    //    lstDonDat = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == i.UserId).ToList();
+        //    //    List<ChiTietDonDatHang> lst = new List<ChiTietDonDatHang>();
+        //    //    foreach(var item in lstDonDat)
+        //    //    {
+        //    //       lstDonDat = lstDonDat.Include(x => x.ChiTietDonDatHangs.Select(y => y.SanPhams)).Where(x =>x)
+
+
+
+        //    //    }
+        //    //}
+        //    return lstUser;
+        //}
         public ActionResult Logout()
         {
             Session["username"] = null;

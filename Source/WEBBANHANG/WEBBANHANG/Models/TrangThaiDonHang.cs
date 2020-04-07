@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace G02Apis.Models
+namespace WEBBANHANG.Models
 {
     public class TrangThaiDonHang
     {

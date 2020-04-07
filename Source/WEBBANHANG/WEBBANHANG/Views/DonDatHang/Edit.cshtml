@@ -19,6 +19,9 @@
                     Sản phẩm
                 </th>
                 <th>
+                    Nha cung cap
+                </th>
+                <th>
                     Đơn giá
                 </th>
                 <th>
@@ -49,6 +52,12 @@
                                 @item.SanPham.TenSanPham
                             </div>
                         </div>
+                    </td>
+                    <td>
+                        @{ 
+                            var tenNCC = item.SanPham.NhaCungCap;
+                        }
+                        @tenNCC.TenNhaCungCap
                     </td>
                     <td>
                         @item.GiaXuat
